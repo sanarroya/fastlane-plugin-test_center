@@ -10,6 +10,7 @@ module Fastlane
         else
           verbose("collate_junit_reports with #{report_filepaths}")
           reports = report_filepaths.map { |report_filepath| REXML::Document.new(File.new(report_filepath)) }
+          reports = reports.select { |r| defined?(r.root.attribute('name'))}
           packages = reports.map { |r| r.root.attribute('name').value }.uniq
           combine_multiple_targets = packages.size > 1 
 
